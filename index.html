@@ -1,106 +1,195 @@
-<!DOCTYPE html>
+<!-- index.html -->
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang-en="The Tragedy of the Crowded Hearth" data-lang-ko="혼잡한 난로의 비극" data-lang-fr="La Tragédie du Foyer Encombré">The Tragedy of the Crowded Hearth</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="meta.title">Stewardship in Practice</title>
+    <meta
+      name="description"
+      content="A simple, step-by-step approach to declutter with purpose."
+      data-i18n-attr="content"
+      data-i18n="meta.description"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Minimal styling so the CTA behaviors in script.js are visible even without a full CSS file -->
+    <style>
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .language-switcher {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .language-switcher button[aria-pressed="true"] {
+        font-weight: 700;
+        text-decoration: underline;
+      }
+
+      .floating-cta {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 50;
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        transition: opacity 180ms ease, transform 180ms ease;
+      }
+
+      .floating-cta.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .action-link.cta-animate {
+        animation: ctaPulse 650ms ease-out;
+      }
+
+      @keyframes ctaPulse {
+        0% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(1.04);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <a class="sr-only" href="#main" data-i18n="a.skip">Skip to content</a>
+
     <header>
-        <div class="controls">
-            <select id="lang-select">
-                <option value="en">English</option>
-                <option value="ko">한국어</option>
-                <option value="fr">Français</option>
-            </select>
-            <button id="mode-toggle" aria-label="Toggle Dark/Light Mode">
-                <span id="mode-icon">🌙</span> <span data-lang-en="Dark Mode" data-lang-ko="다크 모드" data-lang-fr="Mode Sombre">Dark Mode</span>
-            </button>
+      <div class="header-inner">
+        <div class="brand">
+          <span class="brand-name" data-i18n="brand.name">Stewardship in Practice</span>
         </div>
-        <h1 data-lang-en="The Tragedy of the Crowded Hearth" data-lang-ko="혼잡한 난로의 비극" data-lang-fr="La Tragédie du Foyer Encombré">The Tragedy of the Crowded Hearth</h1>
-        <p class="subtitle" data-lang-en="Stewardship, Sentimentality, and the Theology of the Empty Bin" data-lang-ko="청지기 정신, 감정주의, 그리고 빈 통의 신학" data-lang-fr="Intendance, Sentimentalité et Théologie du Panier Vide">Stewardship, Sentimentality, and the Theology of the Empty Bin</p>
-        <blockquote>"<span data-lang-en="For where your treasure is, there your heart will be also." data-lang-ko="네 보배 있는 곳에 네 마음도 있느니라." data-lang-fr="Car où est ton trésor, là sera aussi ton cœur."></span>"<br><cite>— <span data-lang-en="Matthew 6:21" data-lang-ko="마태복음 6:21" data-lang-fr="Matthieu 6:21"></span></cite></blockquote>
-        <p class="tagline" data-lang-en="A Call to Reformed Simplicity." data-lang-ko="개혁주의적 단순함으로의 부름." data-lang-fr="Un Appel à la Simplicité Réformée."></p>
+
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="#home" data-i18n="nav.home">Home</a></li>
+            <li><a href="#why" data-i18n="nav.why">Why it matters</a></li>
+            <li><a href="#method" data-i18n="nav.method">The Method</a></li>
+            <li><a href="#resources" data-i18n="nav.resources">Resources</a></li>
+          </ul>
+        </nav>
+
+        <div class="language-switcher" aria-label="Language switcher">
+          <span class="sr-only" data-i18n="lang.label">Language</span>
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">
+            <span aria-hidden="true">EN</span>
+            <span class="sr-only">English</span>
+          </button>
+          <button type="button" class="lang-btn" data-lang="fr" aria-pressed="false">
+            <span aria-hidden="true">FR</span>
+            <span class="sr-only">Français</span>
+          </button>
+          <button type="button" class="lang-btn" data-lang="ko" aria-pressed="false">
+            <span aria-hidden="true">KO</span>
+            <span class="sr-only">한국어</span>
+          </button>
+        </div>
+      </div>
     </header>
 
-    <section id="idolatry">
-        <h2 data-lang-en="The Idolatry of 'Stuff'" data-lang-ko="'물건'의 우상숭배" data-lang-fr="L'Idolâtrie des 'Choses'">The Idolatry of "Stuff"</h2>
-        <p data-lang-en="We often mistake sentimentality for love. But if our 'treasures' hinder our hospitality, they have become idols." data-lang-ko="우리는 종종 감상주의를 사랑으로 착각합니다. 그러나 우리의 '보배'가 호스피탤리티를 방해한다면, 그것들은 우상이 되었습니다." data-lang-fr="Nous confondons souvent la sentimentalité avec l'amour. Mais si nos 'trésors' rendent notre hospitalité impossible, ils sont devenus des idoles.">
-            We often mistake sentimentality for love. But if our "treasures" hinder our hospitality, they have become idols.
+    <main id="main">
+      <section id="home" aria-label="Hero">
+        <h1 data-i18n="hero.title">Declutter with purpose.</h1>
+        <p data-i18n="hero.lead">
+          A simple, step-by-step approach to keep what you value and let go of what you don’t.
         </p>
-        <ul>
-            <li><strong data-lang-en="The Myth of Preservation:" data-lang-ko="보존의 신화:" data-lang-fr="Le Mythe de la Préservation:">The Myth of Preservation:</strong> <span data-lang-en="You cannot save the past by filling your garage." data-lang-ko="차고를 채움으로써 과거를 구할 수 없습니다." data-lang-fr="Vous ne pouvez pas sauver le passé en remplissant votre garage."></span></li>
-            <li><strong data-lang-en="The Myth of Utility:" data-lang-ko="효용의 신화:" data-lang-fr="Le Mythe de l'Utilité:">The Myth of Utility:</strong> <span data-lang-en="An item unused for a year is an item buried in the earth (Matt. 25:25)." data-lang-ko="일년 동안 사용되지 않은 물건은 땅에 묻힌 물건입니다 (마태복음 25:25)." data-lang-fr="Un objet inutilisé depuis un an est un objet enseveli dans la terre (Matt. 25:25)."></span></li>
-            <li><strong data-lang-en="The Myth of Heritage:" data-lang-ko="유산의 신화:" data-lang-fr="Le Mythe de l'Héritage:">The Myth of Heritage:</strong> <span data-lang-en="Your children do not want your clutter; they want your character." data-lang-ko="귀하의 자녀들은 귀하의 혼란을 원하지 않습니다; 그들은 귀하의 성품을 원합니다." data-lang-fr="Vos enfants ne veulent pas de votre désordre ; ils veulent votre caractère."></span></li>
-        </ul>
-    </section>
 
-    <section id="theology">
-        <h2 data-lang-en="A Theology of Enough" data-lang-ko="충분함의 신학" data-lang-fr="Une Théologie du Suffisant">A Theology of Enough</h2>
-        <h3 data-lang-en="1. Sovereignty over Stuff" data-lang-ko="1. 물건에 대한 주권" data-lang-fr="1. Souveraineté sur les Choses">1. Sovereignty over Stuff</h3>
-        <p data-lang-en="If Christ is Lord of all, He is Lord of your square footage. Clutter is often a silent protest against God’s current provision, as we cling to the 'manna' of yesterday." data-lang-ko="만일 그리스도께서 모든 것의 주님이시라면, 그분은 귀하의 평방피트의 주님이십니다. 혼란은 종종 우리가 어제의 '만나'를 붙잡는 하나님의 현재 공급에 대한 침묵의 항의입니다." data-lang-fr="Si le Christ est Seigneur de tout, Il est Seigneur de votre espace. Le désordre est souvent une protestation silencieuse contre la provision actuelle de Dieu, alors que nous nous accroçons à la 'manne' d'hier.">
-            If Christ is Lord of all, He is Lord of your square footage. Clutter is often a silent protest against God’s current provision, as we cling to the "manna" of yesterday.
-        </p>
-        <h3 data-lang-en="2. The Sin of Stagnation" data-lang-ko="2. 정체의 죄" data-lang-fr="2. Le Péché de Stagnation">2. The Sin of Stagnation</h3>
-        <p data-lang-en="The Christian life is a race (Heb. 12:1). You cannot run effectively while dragging bins of 1990 behind you. We are pilgrims, not settlers." data-lang-ko="기독교 생활은 달음질입니다 (히브리서 12:1). 귀하는 귀하의 뒤에 1990년 통을 끌고 있는 동안 효과적으로 달릴 수 없습니다. 우리는 정착민이 아니라 순례자입니다." data-lang-fr="La vie chrétienne est une course (Héb. 12:1). Vous ne pouvez pas courir efficacement en traînant des boîtes de 1990 derrière vous. Nous sommes des pèlerins, pas des colons.">
-            The Christian life is a race (Heb. 12:1). You cannot run effectively while dragging bins of 1990 behind you. We are pilgrims, not settlers.
-        </p>
-        <h3 data-lang-en="3. The Command of Hospitality" data-lang-ko="3. 손님 대접의 명령" data-lang-fr="3. Le Commandement de l'Hospitalité">3. The Command of Hospitality</h3>
-        <p data-lang-en="A home choked by sentimentality cannot be a home opened to the stranger. Every bin of 'maybe one day' is a square foot stolen from 'today’s ministry.'" data-lang-ko="감상주의로 가득 찬 집은 낯선 사람에게 열린 집이 될 수 없습니다. '아마 언젠가'의 모든 통은 '오늘의 사역'에서 훔친 평방피트입니다." data-lang-fr="Une maison étouffée par la sentimentalité ne peut pas être une maison ouverte à l'étranger. Chaque boîte de 'peut-être un jour' est un pied carré volé au 'ministère d'aujourd'hui'.">
-            A home choked by sentimentality cannot be a home opened to the stranger. Every bin of "maybe one day" is a square foot stolen from "today’s ministry."
-        </p>
-    </section>
+        <div class="hero-actions">
+          <a class="action-link" href="#method" data-i18n="cta.takeAction">Take Action Now</a>
+          <a class="secondary-link" href="#why" data-i18n="cta.learnMore">Learn the method</a>
+        </div>
+      </section>
 
-    <section id="heritage">
-        <h2 data-lang-en="Legacy Without the Weight" data-lang-ko="무게 없는 유산" data-lang-fr="Héritage Sans le Poids">Legacy Without the Weight</h2>
-        <h3 data-lang-en="The Artifact vs. The Covenant" data-lang-ko="유물 대 언약" data-lang-fr="L'Artéfact Contre l'Alliance">The Artifact vs. The Covenant</h3>
-        <p data-lang-en="Your children’s heritage is the Covenant, not the Curios." data-lang-ko="귀하의 자녀들의 유산은 큐리오스가 아니라 언약입니다." data-lang-fr="L'héritage de vos enfants est l'Alliance, pas les Curiosités.">
-            Your children’s heritage is the <strong data-lang-en="Covenant" data-lang-ko="언약" data-lang-fr="Alliance">Covenant</strong>, not the <strong data-lang-en="Curios" data-lang-ko="큐리오스" data-lang-fr="Curiosités">Curios</strong>.
+      <section id="why">
+        <h2 data-i18n="why.title">Why stewardship matters</h2>
+        <p data-i18n="why.body">
+          Stewardship is caring for what you’ve been given—time, space, and belongings—so they
+          serve your life, not weigh it down.
         </p>
-        <ul>
-            <li><strong data-lang-en="Identify the 'Ebenezer':" data-lang-ko="'에벤에셀'을 확인하라:" data-lang-fr="Identifiez l'Eben-Ezer :">Identify the "Ebenezer":</strong> <span data-lang-en="Keep the one item that tells a story of God’s faithfulness." data-lang-ko="하나님의 신실함의 이야기를 전하는 하나의 물건을 유지하라." data-lang-fr="Gardez l'objet unique qui raconte une histoire de la fidélité de Dieu."></span></li>
-            <li><strong data-lang-en="Destroy the Noise:" data-lang-ko="소음을 파괴하라:" data-lang-fr="Détruisez le Bruit :">Destroy the Noise:</strong> <span data-lang-en="When everything is kept, nothing is special. A single family Bible is a legacy; a basement of boxes is a burden." data-lang-ko="모든 것이 유지되면 아무것도 특별하지 않습니다. 단 하나의 가족 성경은 유산입니다; 상자들로 가득한 지하실은 부담입니다." data-lang-fr="Quand tout est gardé, rien n'est spécial. Une seule Bible familiale est un héritage ; un sous-sol de boîtes est un fardeau."></span></li>
-            <li><strong data-lang-en="The Act of Love:" data-lang-ko="사랑의 행위:" data-lang-fr="L'Acte d'Amour :">The Act of Love:</strong> <span data-lang-en="Decluttering today is a mercy to your children tomorrow. Do not leave them a warehouse to clean; leave them a life to emulate." data-lang-ko="오늘의 정리정돈은 내일 귀하의 자녀들에게 자비입니다. 그들에게 청소할 창고를 남기지 말라; 그들에게 본받을 삶을 남기라." data-lang-fr="Désencombrer aujourd'hui est une miséricorde pour vos enfants demain. Ne leur laissez pas un entrepôt à nettoyer ; laissez-leur une vie à imiter."></span></li>
-        </ul>
-    </section>
+      </section>
 
-    <section id="method">
-        <h2 data-lang-en="Actionable Stewardship" data-lang-ko="실행 가능한 청지기 정신" data-lang-fr="Intendance Actionnable">Actionable Stewardship</h2>
-        <h3 data-lang-en="I. The Rule of Utility" data-lang-ko="I. 효용의 규칙" data-lang-fr="I. La Règle de l'Utilité">I. The Rule of Utility</h3>
-        <p data-lang-en="Does this item glorify God, serve my family, or bless a neighbor *this month*? If no, it is a candidate for removal." data-lang-ko="이 물건이 하나님을 영화롭게 하고, 내 가족을 섬기며, 이웃을 축복하는가? *이번 달*에? 아니면, 제거될 후보자입니다." data-lang-fr="Cet objet glorifie-t-il Dieu, sert-il ma famille ou bénit-il un voisin *ce mois-ci* ? Si non, il est candidat à l'élimination.">
-            Does this item glorify God, serve my family, or bless a neighbor <em>this month</em>? If no, it is a candidate for removal.
-        </p>
-        <h3 data-lang-en="II. The 'One Bin' Limit" data-lang-ko="II. '하나의 통' 제한" data-lang-fr="II. La Limite d'Un Panier">II. The "One Bin" Limit</h3>
-        <p data-lang-en="Sentimental items should be curated, not hoarded. Limit yourself to one beautiful trunk. If it doesn't fit, it doesn't stay." data-lang-ko="감정적인 물건들은 호드되지 말고 큐레이션되어야 합니다. 아름다운 트렁크 하나로 한정하라. 맞지 않으면 남지 않는다." data-lang-fr="Les objets sentimentaux doivent être curatés, pas stockés. Limitez-vous à un beau coffre. Si ça ne rentre pas, ça ne reste pas.">
-            Sentimental items should be curated, not hoarded. Limit yourself to one beautiful trunk. If it doesn't fit, it doesn't stay.
-        </p>
-        <h3 data-lang-en="III. The Digital Hand-Off" data-lang-ko="III. 디지털 핸드오프" data-lang-fr="III. Le Transfert Numérique">III. The Digital Hand-Off</h3>
-        <p data-lang-en="Photograph the object. Record the story. Donate the item. You keep the memory; a needy neighbor gets the utility." data-lang-ko="물건을 사진으로 찍어라. 이야기를 기록해라. 물건을 기부해라. 기억은 유지하고, 유용성은 필요로 하는 이웃에게 줍니다." data-lang-fr="Photographiez l'objet. Enregistrez l'histoire. Donnez l'objet. Vous gardez le souvenir ; un voisin dans le besoin obtient l'utilité.">
-            Photograph the object. Record the story. Donate the item. You keep the memory; a needy neighbor gets the utility.
-        </p>
-        <h3 data-lang-en="IV. Immediate Disposal" data-lang-ko="IV. 즉각적인 처분" data-lang-fr="IV. Élimination Immédiate">IV. Immediate Disposal</h3>
+      <section id="method" aria-labelledby="method-title">
+        <h2 id="method-title" tabindex="-1" data-i18n="method.title">Actionable Stewardship</h2>
+        <p data-i18n="method.lead">Use this five-step loop whenever you declutter:</p>
+
         <ol>
-            <li><strong data-lang-en="The Trash:" data-lang-ko="쓰레기:" data-lang-fr="La Poubelle :">The Trash:</strong> <span data-lang-en="Anything broken/decayed." data-lang-ko="부서진 것/썩은 것." data-lang-fr="Tout ce qui est cassé/détérioré."></span></li>
-            <li><strong data-lang-en="The Gift:" data-lang-ko="선물:" data-lang-fr="Le Cadeau :">The Gift:</strong> <span data-lang-en="Anything useful but unused." data-lang-ko="유용하지만 사용되지 않은 것." data-lang-fr="Tout ce qui est utile mais inutilisé."></span></li>
-            <li><strong data-lang-en="The Keep:" data-lang-ko="유지:" data-lang-fr="Ce qu'on Garde :">The Keep:</strong> <span data-lang-en="Only the 'Greatest Hits.'" data-lang-ko="오직 '최고의 히트곡들'만." data-lang-fr="Seulement les 'Grands Succès'."></span></li>
+          <li>
+            <h3 data-i18n="method.step1.title">1. Set a boundary</h3>
+            <p data-i18n="method.step1.body">Choose one drawer, one shelf, or 15 minutes.</p>
+          </li>
+          <li>
+            <h3 data-i18n="method.step2.title">2. Sort honestly</h3>
+            <p data-i18n="method.step2.body">
+              Keep, donate, recycle, or discard—no “maybe” pile.
+            </p>
+          </li>
+          <li>
+            <h3 data-i18n="method.step3.title">3. Return with intention</h3>
+            <p data-i18n="method.step3.body">
+              Put items where you’ll use them. Store by frequency.
+            </p>
+          </li>
+          <li>
+            <h3 data-i18n="method.step4.title">4. Release responsibly</h3>
+            <p data-i18n="method.step4.body">
+              Donate what’s usable, recycle what isn’t, and trash the rest.
+            </p>
+          </li>
+          <li>
+            <h3 data-i18n="method.step5.title">5. Maintain lightly</h3>
+            <p data-i18n="method.step5.body">One in, one out. Review monthly.</p>
+          </li>
         </ol>
-        <blockquote>"<span data-lang-en="He is no fool who gives what he cannot keep to gain what he cannot lose." data-lang-ko="그는 그가 지킬 수 없는 것을 주고 그가 잃을 수 없는 것을 얻는 바보가 아니다." data-lang-fr="Il n'est pas fou celui qui donne ce qu'il ne peut garder pour gagner ce qu'il ne peut perdre."></span>" — <span data-lang-en="Jim Elliot" data-lang-ko="짐 엘리엇" data-lang-fr="Jim Elliot"></span></blockquote>
-    </section>
+      </section>
 
-    <section id="prayer">
-        <h2 data-lang-en="A Prayer for the Cluttered Soul" data-lang-ko="혼란스러운 영혼을 위한 기도" data-lang-fr="Une Prière pour l'Âme Encombrée">A Prayer for the Cluttered Soul</h2>
-        <p data-lang-en="Lord, grant me the grace to hold loosely what is passing away. Help me to find my security in Your Providence, not in my possessions. May my home be a theater for Your glory rather than a museum for my past. Amen." data-lang-ko="주님, 사라져 가는 것을 loosely 잡을 수 있는 은혜를 주소서. 저의 소유물 속이 아닌 당신의 섭리 속에서 안전을 찾도록 도와주소서. 저의 집이 제 과거의 박물관이 아니라 당신의 영광을 위한 극장이 되게 하소서. 아멘." data-lang-fr="Seigneur, accorde-moi la grâce de lâcher ce qui passe. Aide-moi à trouver ma sécurité dans Ta Providence, pas dans mes possessions. Que ma maison soit un théâtre pour Ta gloire plutôt qu'un musée de mon passé. Amen.">
-            Lord, grant me the grace to hold loosely what is passing away. Help me to find my security in Your Providence, not in my possessions. May my home be a theater for Your glory rather than a museum for my past. Amen.
-        </p>
-        <p><strong data-lang-en="The Goal:" data-lang-ko="목표:" data-lang-fr="L'Objectif :">The Goal:</strong> <span data-lang-en="Not a minimalist house, but a Ministering House." data-lang-ko="미니멀리스트 하우스가 아니라 사역하는 하우스." data-lang-fr="Pas une maison minimaliste, mais une Maison de Ministère."></span></p>
-        <p><strong data-lang-en="The Result:" data-lang-ko="결과:" data-lang-fr="Le Résultat :">The Result:</strong> <span data-lang-en="Freedom to host, freedom to move, freedom to give." data-lang-ko="접대할 자유, 움직일 자유, 줄 자유." data-lang-fr="Liberté d'accueillir, liberté de bouger, liberté de donner."></span></p>
-        <a href="#method" class="action-link" data-lang-en="Take Action Now" data-lang-ko="지금 행동하라" data-lang-fr="Agissez Maintenant">Take Action Now</a>
-    </section>
+      <section id="resources">
+        <h2 data-i18n="resources.title">Quick resources</h2>
+        <ul>
+          <li data-i18n="resources.r1">10-minute reset checklist</li>
+          <li data-i18n="resources.r2">Donation drop-off plan</li>
+          <li data-i18n="resources.r3">“Keep list” questions</li>
+        </ul>
+      </section>
+    </main>
 
     <footer>
-        <p data-lang-en="&copy; 2026 The Tragedy of the Crowded Hearth. Inspired by Christian Stewardship." data-lang-ko="&copy; 2026 혼잡한 난로의 비극. 기독교 청지기 정신에서 영감을 받았습니다." data-lang-fr="&copy; 2026 La Tragédie du Foyer Encombré. Inspiré par l'Intendance Chrétienne.">&copy; 2026 The Tragedy of the Crowded Hearth. Inspired by Christian Stewardship.</p>
+      <p data-i18n="footer.note">Built for practical, respectful decluttering.</p>
     </footer>
-</body>
+
+    <!-- Floating CTA so the “Take Action Now” button can remain available while scrolling -->
+    <a class="action-link floating-cta" href="#method" data-i18n="cta.takeAction">
+      Take Action Now
+    </a>
+
+    <noscript>
+      <p data-i18n="noscript">
+        This page works best with JavaScript enabled for language switching and smooth scrolling.
+      </p>
+    </noscript>
+
+    <script src="script.js" defer></script>
+  </body>
 </html>
